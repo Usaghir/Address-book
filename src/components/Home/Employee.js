@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { EmployeeContext } from 'global/EmployeeContext';
-import Image from 'assets/image.jpg';
+import { Link } from 'react-router-dom';
+
 
 function Employee() {
   const { employee } = useContext(EmployeeContext);
@@ -14,7 +15,7 @@ function Employee() {
           <ul className="users list-group">
             {employee.map((user) => (
               <li
-                key={user.email}
+                key={user.id.value}
                 className="user list-group-item d-flex justify-content-between align-items-center"
               >
                 {' '}
@@ -25,10 +26,16 @@ function Employee() {
                       <small>{user.email}</small>
                     </p>
                     <p>
+                      <small>{user.id.value}</small>
+                    </p>
+                    <p>
                       <small>{user.cell}</small>
                     </p>
                     <p>
                       <small>{user.email}</small>
+                    </p>
+                    <p>
+                      <small ><Link to={user.id.value} target="_blank"><button>More Info</button></Link></small>
                     </p>
                   </li>
                   
