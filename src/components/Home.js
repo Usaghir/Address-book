@@ -1,19 +1,23 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Employee from 'components/Home/Employee';
-import Search from 'components/Home/Search';
-
+import Header from './Home/Header';
+import { EmployeeContext } from 'global/EmployeeContext';
 
 function Home() {
+
+ 
+
+
   return (
     <div>
-       <Search></Search>
+      <Header  ></Header>
       <Employee></Employee>
       <Link to="/Profile">
-  <button className="btn font-bebas" style={{ background: '#318fb5' }}>
-    Profile
-  </button>
-</Link>
+        <button className="btn font-bebas" style={{ background: '#318fb5' }}>
+          Profile
+        </button>
+      </Link>
     </div>
   );
 }
