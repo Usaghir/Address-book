@@ -1,0 +1,23 @@
+.header-container{
+
+padding: 3rem 0;
+
+}
+
+.header-form{
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(202px, 1fr));
+  grid-row-gap:2rem;
+  grid-column-gap:30px;
+  margin: auto;
+  width: 70vw;
+}
+
+input{
+
+  width: 100%;
+  background:transparent;
+  font-size: 2rem;
+
+}
