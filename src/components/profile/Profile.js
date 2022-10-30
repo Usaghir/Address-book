@@ -1,118 +1,156 @@
-import React, { useContext } from 'react';
-import { EmployeeContext } from 'global/EmployeeContext';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import {
+  EnvelopeFill,
+  TelephoneFill,
+  GeoAlt,
+  PhoneFill,
+  PersonBadgeFill,
+} from 'react-bootstrap-icons';
 import './Profile.css';
+import axios from 'axios';
+import Moment from 'react-moment';
+import 'moment-timezone';
 
 function Profile() {
-  const { id } = useParams();
-  const { employee } = useContext(EmployeeContext);
+  // To be used before the page will be loaded.
+  const [isLoading, setIsLoading] = useState(true);
 
-  console.log(id);
-  console.log(employee);
+  // To display the error message.
+  const [error, setError] = useState(null);
+
+  // To store and update employees data.
+  const [employee, setEmployee] = useState([]);
+
+  // To get he url parameters.
+  const { id } = useParams();
+
+  useEffect(() => {
+    // To call the API for fetching employee data on first render.
+    const getEmployeeData = async () => {
+      try {
+        const response = await axios.get('https://randomuser.me/api/?results=10&seed=abc');
+        console.log(response.data.results);
+        setEmployee(response.data.results.filter((data) => data.cell === id)[0]);
+      } catch (err) {
+        const errorMessage = 'Error: ' + err.message;
+        setError(errorMessage);
+        console.log(errorMessage);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    getEmployeeData();
+  }, [id]);
+
+  // To overcome the empty page until data is fetched from API.
+  if (isLoading) return 'Loading...';
+
+  // To display the error.
+  if (error) return error;
+
   return (
-    <ul>
-      {employee.map((user) =>
-        user.id.value === { id } ? (
-          <li key={user.login.uuid} className="page-content page-container" id="page-content">
-            <div className="padding">
-              <div className="row container d-flex justify-content-center">
-                <div className="col-xl-6 col-md-12">
-                  <div className="card user-card-full">
-                    <div className="row m-l-0 m-r-0">
-                      <div className="col-sm-4 bg-c-lite-green user-profile">
-                        <div className="card-block text-center text-white">
-                          <div className="m-b-25">
-                            <img src="" className="img-fluid" alt="quixote" />
-                          </div>
-                          <h6 className="f-w-600">{user.name.first}</h6>
-                          <p>{user.name.first}</p>
-                          <i className=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
-                        </div>
-                      </div>
-                      <div className="col-sm-8">
-                        <div className="card-block">
-                          <h6 className="m-b-20 p-b-5 b-b-default f-w-600">{user.name.first}</h6>
-                          <div className="row">
-                            <div className="col-sm-6">
-                              <p className="m-b-10 f-w-600">{user.name.first}</p>
-                              <h6 className="text-muted f-w-400">{user.name.first}</h6>
-                            </div>
-                            <div className="col-sm-6">
-                              <p className="m-b-10 f-w-600">Phone</p>
-                              <h6 className="text-muted f-w-400">98979989898</h6>
-                            </div>
-                          </div>
-                          <h6 className="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Projects</h6>
-                          <div className="row">
-                            <div className="col-sm-6">
-                              <p className="m-b-10 f-w-600">Recent</p>
-                              <h6 className="text-muted f-w-400">Sam Disuja</h6>
-                            </div>
-                            <div className="col-sm-6">
-                              <p className="m-b-10 f-w-600">Most Viewed</p>
-                              <h6 className="text-muted f-w-400">Dinoter husainm</h6>
-                            </div>
-                          </div>
-                          <ul className="social-link list-unstyled m-t-40 m-b-10">
-                            <li>
-                              <a
-                                href="#!"
-                                data-toggle="tooltip"
-                                data-placement="bottom"
-                                title=""
-                                data-original-title="facebook"
-                                data-abc="true"
-                              >
-                                <i
-                                  className="mdi mdi-facebook feather icon-facebook facebook"
-                                  aria-hidden="true"
-                                ></i>
-                              </a>
-                            </li>
-                            <li>
-                              <a
-                                href="#!"
-                                data-toggle="tooltip"
-                                data-placement="bottom"
-                                title=""
-                                data-original-title="twitter"
-                                data-abc="true"
-                              >
-                                <i
-                                  className="mdi mdi-twitter feather icon-twitter twitter"
-                                  aria-hidden="true"
-                                ></i>
-                              </a>
-                            </li>
-                            <li>
-                              <a
-                                href="#!"
-                                data-toggle="tooltip"
-                                data-placement="bottom"
-                                title=""
-                                data-original-title="instagram"
-                                data-abc="true"
-                              >
-                                <i
-                                  className="mdi mdi-instagram feather icon-instagram instagram"
-                                  aria-hidden="true"
-                                ></i>
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+    <div>
+      <div>
+        <div className="container rounded bg-white mt-5 mb-5">
+          <h2 className="text-right">Profile</h2>
+        </div>
+        <div className="row">
+          <div className="col-md-4">
+            <div className="d-flex flex-column align-items-center text-center p-3 py-5">
+              <img
+                src={employee.picture.large}
+                className="employee-img img-fluid mb-2"
+                alt=""
+              ></img>
+
+              <span> </span>
+            </div>
+          </div>
+          <div className="col-md-5 border-right">
+            <div className="p-3 py-5">
+              <div className="d-flex justify-content-between align-items-center mb-3">
+                <ul className="  list-unstyled">
+                  <ul className="users list-group list-unstyled ms-5">
+                    <li>
+                      <h4 className="letterSpace fw-bold ml-0 pl-0 ">
+                        {' '}
+                        {employee.name.title +
+                          ' ' +
+                          employee.name.first +
+                          ' ' +
+                          employee.name.last}{' '}
+                      </h4>
+                    </li>
+                    <li className=" text-start flex-column">
+                      <p className="employeeID">
+                        <small className="font-text">UUID: </small>
+                        <small>{employee.login.uuid}</small>
+                      </p>
+                      <p>
+                        <small className="m1-2">
+                          <EnvelopeFill></EnvelopeFill>{' '}
+                        </small>
+                        <small>{employee.email}</small>
+                      </p>
+
+                      <p>
+                        <small className="me-1">
+                          <TelephoneFill></TelephoneFill>
+                        </small>
+                        <small>{employee.phone}</small>
+                      </p>
+                      <p>
+                        <small className="me-1">
+                          <PhoneFill></PhoneFill>
+                        </small>
+                        <small>{employee.cell}</small>
+                      </p>
+                      <p>
+                        <small className="me-1">
+                          <GeoAlt></GeoAlt>{' '}
+                        </small>
+                        <small>
+                          {employee.location.street.name +
+                            ' ' +
+                            employee.location.street.number +
+                            ' ' +
+                            employee.location.postcode +
+                            ', ' +
+                            employee.location.city +
+                            ', ' +
+                            employee.location.country}
+                        </small>
+                      </p>
+                      <p>
+                        <small className="me-1 font-text">DOB:</small>
+                        <small>
+                          <Moment format="YYYY/MM/DD">{employee.dob.date}</Moment>
+                        </small>
+                        {' | '}
+                        <small className=" font-text me-1">Age:</small>
+
+                        <small>{employee.dob.age}</small>
+                      </p>
+                      <p>
+                        <small className="me-1 font-text">Starting Date:</small>
+                        <small>
+                          {' '}
+                          <Moment format="YYYY/MM/DD">{employee.registered.date}</Moment>
+                        </small>
+                      </p>
+                    </li>
+                  </ul>
+                </ul>
+
+                <div className="mt-5 text-center"></div>
               </div>
             </div>
-          </li>
-        ) : (
-          ' '
-        ),
-      )}
-    </ul>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

@@ -1,20 +1,27 @@
-import React, { useContext } from 'react'
+import React, { useContext } from 'react';
 import { EmployeeContext } from 'global/EmployeeContext';
 
 function Search() {
+  // To subscribe to the employee context API for employee data.
+  const { setSearch } = useContext(EmployeeContext);
 
-  const { employee, setEmployee, gender, setGender, search, setSearch } = useContext(EmployeeContext);
-
-
+  // To handle the user's search.
   const handleSearch = (event) => {
     setSearch(event.target.value);
     event.preventDefault();
   };
 
   return (
-    <div className="row">
-      <div className="app">
-        <input type="text" placeholder="Search...." className="search" onChange={handleSearch}></input> 
+    <div className="col ">
+      <div className="">
+        <input
+          type="search"
+          id="form1"
+          class="form-control"
+          placeholder="Please writhe the Employee name to find "
+          aria-label="Search"
+          onChange={handleSearch}
+        ></input>
       </div>
     </div>
   );

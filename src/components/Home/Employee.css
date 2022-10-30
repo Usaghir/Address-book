@@ -1,0 +1,62 @@
+
+h1{
+
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: #000 !;
+}
+
+h4, h6 {
+
+  font-family: 'BebasNeue-Regular' !important;
+  margin:0;
+  padding:0;
+  line-height: 1;
+
+
+}
+h4{
+  font-size: 32px !important;
+  min-width: 20rem;
+  text-align: left;
+}
+h6{
+  font-size: 1.25rem !important;
+}
+
+.letterSpace{
+  letter-spacing: 2px;
+
+}
+.employee-image {
+ width: 15% !important;
+  overflow: hidden;
+  border-radius: 100%;
+  border:double 4px  #dfdfdf;
+  box-shadow: 4px 4px 4px #999;
+}
+
+.employeeID{
+
+font-family: 'Times New Roman', Times, serif;
+color: rgb(199, 59, 59);
+}
+
+
+button
+{
+  padding: 10px 10px;
+  font-family: 'BebasNeue-Regular' !important;
+  font-weight: bolder;
+  font-size:x-large;
+  background:#474853;
+
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.5s ease-in-out;
+  letter-spacing: 2px;
+  box-shadow: 4px 4px 4px #999;
+
+
+
+  
+}

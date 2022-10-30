@@ -1,62 +1,74 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { EmployeeContext } from 'global/EmployeeContext';
 import { Link } from 'react-router-dom';
-
+import { EnvelopeFill, TelephoneFill, GeoAlt } from 'react-bootstrap-icons';
+import './Employee.css';
 function Employee() {
-
+  // To subscribe to the employee context API for employee data.
   const { employee } = useContext(EmployeeContext);
 
-
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-12 col-sm-8 col-lg-5">
-          <h6 className="text-muted">Employee with Images</h6>
-          <ul className="users list-group">
-            {employee.map((user) =>
-              user.gender !== '{gender}' ? (
+    <div>
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <ul className="  list-unstyled">
+              {employee.map((user) => (
                 <li
                   key={user.login.uuid}
-                  className="user list-group-item d-flex justify-content-between align-items-center"
+                  className=" mb-3 mt-3 pt-3 pb-3 list-group-item d-flex justify-content-center align-items-center "
                 >
-                  {' '}
-                  <ul className="users list-group">
-                    <h4>
-                      {' '}
-                      {user.name.title + ' ' + user.name.first + ' ' + user.name.last}{' '}
-                      <span className="badge bg-secondary">{user.gender}</span>
-                    </h4>
-                    <li className="flex-column">
-                      <p>
-                        <small>{user.email}</small>
-                      </p>
-                      <p>
+                  <img
+                    src={user.picture.large}
+                    className="img-fluid employee-image "
+                    alt="NotFound"
+                  />
+
+                  <ul className="users list-group list-unstyled ms-5">
+                    <div>
+                      <h4 className="letterSpace fw-bold ml-0 pl-0 ">
+                        {' '}
+                        {user.name.title + ' ' + user.name.first + ' ' + user.name.last}{' '}
+                      </h4>
+                      <span class="badge badge-secondary">Primary</span>
+                    </div>
+                    <li className=" text-start flex-column">
+                      <p className="employeeID ">
+                        <small className='font-text'>Employee Id: </small>
                         <small>{user.id.value}</small>
                       </p>
                       <p>
-                        <small>{user.cell}</small>
-                      </p>
-                      <p>
+                        <small className="m1-2">
+                          <EnvelopeFill></EnvelopeFill>{' '}
+                        </small>
                         <small>{user.email}</small>
                       </p>
+
                       <p>
-                        <small>
-                          <Link to={user.id.value} target="_blank">
+                        <small className="me-1">
+                          <TelephoneFill></TelephoneFill>
+                        </small>
+                        <small>{user.phone}</small>
+                      </p>
+                      <p>
+                        <small className="me-1">
+                          <GeoAlt></GeoAlt>{' '}
+                        </small>
+                        <small>{user.location.country}</small>
+                      </p>
+                      <p>
+                        <small className="me-1">
+                          <Link to={user.cell} target="_blank">
                             <button>More Info</button>
                           </Link>
                         </small>
                       </p>
                     </li>
                   </ul>
-                  <div className="image-parent">
-                    <img src={user.picture.thumbnail} className="img-fluid" alt="quixote" />
-                  </div>
                 </li>
-              ) : (
-               ''
-              ),
-            )}
-          </ul>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </div>

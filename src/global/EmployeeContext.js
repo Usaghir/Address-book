@@ -4,46 +4,56 @@ import axios from 'axios';
 export const EmployeeContext = createContext();
 
 const EmployeeProvider = (props) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const [employee, setEmployee] = useState([]);
   const [search, setSearch] = useState('');
   const [gender, setGender] = useState('all');
 
   useEffect(() => {
-    fetch('https://randomuser.me/api/?results=5&seed=abc')
-      .then((results) => results.json())
-      .then((data) => {
-        console.log(data.results);
+    const getAllEmployeeData = async () => {
+      try {
+        const response = await axios.get('https://randomuser.me/api/?results=10&seed=abc');
+
+        const employeeData = response.data.results;
+        console.log(employeeData);
 
         if (gender === 'all' && search === '') {
-          setEmployee(data.results);
+          setEmployee(employeeData);
         } else if (gender === 'all' && search !== '') {
           setEmployee(
-            data.results.filter((data) => data.name.title.toLowerCase().includes(search)),
+            employeeData.filter(
+              (data) =>
+                data.name.first.toLowerCase().includes(search) ||
+                data.name.last.toLowerCase().includes(search),
+            ),
           );
         } else if (gender !== 'all' && search === '') {
-          setEmployee(
-            data.results.filter((data) => data.gender === gender),
-          );
+          setEmployee(employeeData.filter((data) => data.gender === gender));
         } else if (gender !== 'all' && search !== '') {
-
-          var filterGender = data.results.filter((data) => data.gender === gender); 
-          var filterGenderSearch = filterGender;
-
-          setEmployee(
-            filterGender
+          var filterGender = employeeData.filter((data) => data.gender === gender);
+          var filterGenderSearch = filterGender.filter((data) =>
+            data.name.first.toLowerCase().includes(search)||
+            data.name.last.toLowerCase().includes(search),
           );
+
+          setEmployee(filterGenderSearch);
         }
-        /*    setEmployee(data.results);
-        gender === 'all'
-          ? setEmployee(data.results)
-          : setEmployee(data.results.filter((data) => data.gender === gender));
-        search === ' ' && gender === 'all'
-          ? setEmployee(data.results)
-          : setEmployee(
-              data.results.filter((data) => data.name.title.toLowerCase().includes(search)),
-            ); */
-      });
+      } catch (err) {
+        const errorMessage = 'Error: ' + err.message;
+        setError(errorMessage);
+        console.log(errorMessage);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    getAllEmployeeData();
   }, [gender, search]);
+
+  if (isLoading) return 'Loading...';
+  if (error) return error;
 
   return (
     <EmployeeContext.Provider
