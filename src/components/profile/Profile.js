@@ -30,7 +30,7 @@ function Profile() {
     const getEmployeeData = async () => {
       try {
         const response = await axios.get('https://randomuser.me/api/?results=10&seed=abc');
-        console.log(response.data.results);
+        
         setEmployee(response.data.results.filter((data) => data.cell === id)[0]);
       } catch (err) {
         const errorMessage = 'Error: ' + err.message;

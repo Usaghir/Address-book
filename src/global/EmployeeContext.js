@@ -17,7 +17,7 @@ const EmployeeProvider = (props) => {
         const response = await axios.get('https://randomuser.me/api/?results=10&seed=abc');
 
         const employeeData = response.data.results;
-        console.log(employeeData);
+      
 
         if (gender === 'all' && search === '') {
           setEmployee(employeeData);

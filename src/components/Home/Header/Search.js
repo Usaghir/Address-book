@@ -17,7 +17,7 @@ function Search() {
         <input
           type="search"
           id="form1"
-          class="form-control"
+          className="form-control"
           placeholder="Please writhe the Employee name to find "
           aria-label="Search"
           onChange={handleSearch}

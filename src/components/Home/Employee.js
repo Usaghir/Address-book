@@ -30,7 +30,7 @@ function Employee() {
                         {' '}
                         {user.name.title + ' ' + user.name.first + ' ' + user.name.last}{' '}
                       </h4>
-                      <span class="badge badge-secondary">Primary</span>
+                     
                     </div>
                     <li className=" text-start flex-column">
                       <p className="employeeID ">
